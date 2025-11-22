@@ -1,0 +1,12 @@
+void DrawSprite(Sprite* Sprite, Actor* Actor);
+void AnimateSprite(Sprite* Sprite);
+int AlignedToGrid(Actor* Actor);
+int CanMoveInDirection(Actor* Actor);
+void MoveInDirection(Actor* Actor);
+void DoGhostAi(Actor* Ghost);
+void EatDot(Actor* Pac);
+void Render();
+void Input();
+byte CharToFrame(byte Char);
+void IntToString(char* Output, int Number, byte Offset);
+byte IntToChar(byte Number);
