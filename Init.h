@@ -23,6 +23,7 @@ extern byte Region;
 extern byte TitleType;
 extern byte CoinsPerCredit;
 extern byte Coins;
+extern byte Credits;
 extern byte BonusLife;
 extern byte Cheating;
 extern byte Debug;
@@ -103,7 +104,7 @@ enum GameStates {
     Cutscene,
     Maze_Chase
 };
-enum Color {
+enum Color { //order in which each color appears on static spritesheets vertically
     White,
     Red,
     Pink,

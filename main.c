@@ -1,6 +1,20 @@
 #include "Init.h"
 #include "Engine.h"
 
+/*
+TODO:
+    give pacman cornering abilities
+    complete title screen
+    add cutscenes
+    create reset function for level completions and gamestate changes
+    allow ghosts to be eaten, enter the pen, and exit the pen
+    kill pacman
+    level changes
+    maze tunnels
+BUGS:
+    scared blinky always seems to get stuck to the right of his spawn
+*/
+
 int main(int argc, char *argv[])
 {
     //init
@@ -35,7 +49,7 @@ int main(int argc, char *argv[])
             DoGhostAi(&ACT_Clyde);
         }
         Render();
-        //SDL_Delay(Framerate);
+        SDL_Delay(Framerate);
         //getchar();
     }
     SDL_DestroyRenderer(Renderer);

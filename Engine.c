@@ -217,6 +217,11 @@ void Render()
         }
         DrawText(88,8,White,String);
     }
+    if(GameState != Maze_Chase)
+    {
+        IntToString(Credits,);
+        DrawText(72,280,White,)
+    }
     if(GameState == Maze_Chase)
     {
         BG_Maze.Frame = 0;

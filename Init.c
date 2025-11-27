@@ -19,6 +19,7 @@ byte Region = USA;
 byte TitleType = Default;
 byte CoinsPerCredit = -1; //free
 byte Coins = 0;
+byte Credits = 0;
 byte BonusLife = 10; //* 1000
 byte NameTypes = 0; //0 us, 1 alt us, 2 jap, 3 alt jap, 4 hi scores, 5 custom
 byte Cheating = 0;
