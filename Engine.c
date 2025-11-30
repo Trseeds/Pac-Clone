@@ -219,8 +219,8 @@ void Render()
     }
     if(GameState != Maze_Chase)
     {
-        IntToString(Credits,);
-        DrawText(72,280,White,)
+        IntToString(String,Credits,0);
+        DrawText(72,280,White,String);
     }
     if(GameState == Maze_Chase)
     {

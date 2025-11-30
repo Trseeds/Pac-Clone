@@ -16,10 +16,10 @@ const long double Framerate = 100.0/6.0;
 
 byte GameState = Title_Names;
 byte Region = USA;
-byte TitleType = Default;
+byte TitleType = Scores;
 byte CoinsPerCredit = -1; //free
 byte Coins = 0;
-byte Credits = 0;
+byte Credits = 12;
 byte BonusLife = 10; //* 1000
 byte NameTypes = 0; //0 us, 1 alt us, 2 jap, 3 alt jap, 4 hi scores, 5 custom
 byte Cheating = 0;
@@ -32,7 +32,7 @@ char Names[8][8] = {"CHASER  ","BLINKY\" ",
 //                     "HUNTER__","_\"PINKY\"",
 //                     "FLANKER_","__\"INKY\"",
 //                     "MORON___","_\"CLYDE\""}; //custom (jap,programmers choice)
-unsigned int HiScores[4] = {0,0,0,0};
+unsigned int HiScores[4] = {10000,5000,1000,'-'};
 
 typedef struct Sprite Sprite;
 Sprite Black_Tile;
@@ -177,7 +177,7 @@ int SDLInit()
         Scale = ((Display.w/Display.h) >= 1) ? Display.h/ScreenHeight : Display.w/ScreenWidth;
     }
     //window init
-    Window = SDL_CreateWindow("Pac-Man",100,100,ScreenWidth*Scale,ScreenHeight*Scale,0);
+    Window = SDL_CreateWindow("Pac-Man",25,25,ScreenWidth*Scale,ScreenHeight*Scale,0);
     SDL_Surface* WindowIcon = SDL_LoadBMP("Assets/Icon.bmp");
     SDL_SetWindowIcon(Window,WindowIcon);
     SDL_FreeSurface(WindowIcon);
@@ -204,7 +204,7 @@ int SDLRestart()
     SDL_DestroyRenderer(Renderer);
     SDL_DestroyWindow(Window);
     //window init
-    Window = SDL_CreateWindow("Pac-Man",100,100,ScreenWidth*Scale,ScreenHeight*Scale,0);
+    Window = SDL_CreateWindow("Pac-Man",25,25,ScreenWidth*Scale,ScreenHeight*Scale,0);
     SDL_Surface* WindowIcon = SDL_LoadBMP("Assets/Icon.bmp");
     SDL_SetWindowIcon(Window,WindowIcon);
     SDL_FreeSurface(WindowIcon);
