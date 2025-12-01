@@ -41,7 +41,7 @@ int ShortestTurn(Actor* Ghost, int* ViableTurns)
     {
         Distances[Up] = Distance(Ghost->X,Ghost->TargetX) + Distance(Ghost->Y-8,Ghost->TargetY);
     }
-    for(int i = 0; i < 4; i++)
+    for(byte i = 0; i < 4; i++)
     {
         if(Distances[i] < BestDistance)
         {
@@ -49,7 +49,7 @@ int ShortestTurn(Actor* Ghost, int* ViableTurns)
             BestDirection = i;
         }
     }
-    for(int i = 0; i < 4; i++)
+    for(byte i = 0; i < 4; i++)
     {
         if(Distances[Up] == BestDistance && i != ViableTurns[Up])
         {
@@ -76,21 +76,22 @@ int Turn(Actor* Ghost)
     int ViableTurns[4] = {1,1,1,1};
     int TileX = Ghost->X/8;
     int TileY = Ghost->Y/8;
-    switch (Ghost->Direction)
-    {
-        case Right:
-            ViableTurns[Left] = 0;
-            break;
-        case Left:
-            ViableTurns[Right] = 0;
-            break;
-        case Down:
-            ViableTurns[Up] = 0;
-            break;
-        case Up:
-            ViableTurns[Down] = 0;
-            break;
-    }
+    ViableTurns[Reversed[Ghost->Direction]] = 0;
+    // switch (Ghost->Direction)
+    // {
+    //     case Right:
+    //         ViableTurns[Left] = 0;
+    //         break;
+    //     case Left:
+    //         ViableTurns[Right] = 0;
+    //         break;
+    //     case Down:
+    //         ViableTurns[Up] = 0;
+    //         break;
+    //     case Up:
+    //         ViableTurns[Down] = 0;
+    //         break;
+    // }
     if(MazeTiles[TileY][TileX+1] == 1)
     {
         ViableTurns[Right] = 0;

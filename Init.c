@@ -7,9 +7,9 @@ SDL_Renderer* Renderer;
 SDL_Rect Display;
 Uint8* Key;
 
-int Running = 1;
-int Frame = 1;
-int Scale = 3;
+byte Running = 1;
+byte Frame = 1;
+byte Scale = 3;
 int ScreenWidth = 224;
 int ScreenHeight = 288;
 const long double Framerate = 100.0/6.0;
@@ -32,7 +32,7 @@ char Names[8][8] = {"CHASER  ","BLINKY\" ",
 //                     "HUNTER__","_\"PINKY\"",
 //                     "FLANKER_","__\"INKY\"",
 //                     "MORON___","_\"CLYDE\""}; //custom (jap,programmers choice)
-unsigned int HiScores[4] = {10000,5000,1000,'-'};
+unsigned int HiScores[4] = {10000,5000,1000,67};
 
 typedef struct Sprite Sprite;
 Sprite Black_Tile;
@@ -59,7 +59,8 @@ Actor ACT_Clyde;
 
 int RandomTable[512] = {419,199,377,34,38,7,109,122,18,487,340,198,305,379,372,46,342,281,406,459,233,290,164,61,143,227,303,361,301,325,489,129,285,40,246,413,410,244,264,409,336,37,152,469,502,327,196,389,259,436,499,172,432,183,41,144,224,151,480,453,87,124,48,341,339,412,161,298,338,296,108,446,279,203,189,157,276,24,420,470,384,442,119,84,137,467,438,99,146,182,404,77,311,49,270,481,483,488,58,14,292,316,248,441,131,104,322,439,335,193,332,10,5,510,421,458,21,422,184,360,170,445,33,158,243,116,312,331,117,352,494,426,401,346,22,433,498,171,478,390,323,25,254,110,364,266,284,213,293,50,407,280,252,492,491,57,66,148,225,493,185,269,508,19,283,387,288,68,215,287,496,394,398,431,416,393,477,291,42,147,102,423,82,268,231,396,234,465,302,272,355,455,128,328,263,256,417,114,103,505,437,509,357,457,36,65,350,4,349,238,32,399,187,156,400,220,240,304,191,415,430,362,307,20,1,367,395,169,315,71,277,162,121,319,43,166,262,363,353,67,6,112,127,211,253,206,376,130,177,247,142,245,74,294,100,0,28,497,228,194,485,217,29,26,375,501,97,52,75,202,324,70,219,260,381,237,330,216,64,56,374,479,447,320,452,167,257,78,425,23,27,13,195,258,462,136,351,90,163,388,310,286,385,204,251,383,81,278,461,212,89,226,444,2,391,486,140,165,73,113,261,139,506,500,207,197,449,386,405,51,451,200,179,369,232,454,218,365,95,300,429,176,354,435,326,190,295,249,106,126,472,297,271,134,222,105,62,411,471,149,475,223,343,115,490,80,378,141,241,178,267,94,188,3,309,83,205,54,173,334,155,201,138,250,133,359,443,17,402,265,397,511,230,428,463,47,424,39,503,460,368,456,9,382,107,306,507,482,31,85,235,8,476,450,466,392,345,153,69,11,333,414,91,30,63,53,72,174,79,484,59,313,495,329,440,275,86,45,96,274,145,358,160,15,44,210,101,408,373,120,464,181,380,347,154,348,434,60,168,273,221,282,427,370,12,192,118,448,366,314,35,88,255,132,337,318,208,229,308,186,135,92,55,123,214,209,321,159,76,150,317,98,180,299,289,242,125,356,473,403,236,474,111,371,344,239,93,418,175,16,504,468};
 int RandomIndex = -1;
-int GhostMode = Scatter;
+byte GhostMode = Scatter;
+byte Reversed[4] = {Left,Right,Down,Up};
 
 /*0 free space
   1 wall
@@ -149,9 +150,9 @@ byte DotsLeft = 1;
 void MazeInit()
 {
     // Mirror the maze
-    for(int i = 0; i < 36; i++)
+    for(byte i = 0; i < 36; i++)
     {
-        for(int j = 0; j < 14; j++)
+        for(byte j = 0; j < 14; j++)
         {
             MazeTiles[i][27-j] = MazeTiles[i][j];
             Dots[i][27-j] = Dots[i][j];
@@ -291,7 +292,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Pac.HorizontalOffset = -2;
         SPR_Pac.VerticalOffset = -2;
         SPR_Pac.NumberOfFrames = 4;
-        SPR_Pac.FramespPerFrame = 3;
+        SPR_Pac.FramesPerFrame = 3;
         SPR_Pac.Frames[0] = 0;
         SPR_Pac.Frames[1] = 1;
         SPR_Pac.Frames[2] = 2;
@@ -350,7 +351,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Blinky.Width = 14;
         SPR_Blinky.HorizontalOffset = -3;
         SPR_Blinky.VerticalOffset = -3;
-        SPR_Blinky.FramespPerFrame = 8;
+        SPR_Blinky.FramesPerFrame = 8;
         SPR_Blinky.NumberOfFrames = 2;
         SPR_Blinky.Frames[0] = 0;
         SPR_Blinky.Frames[1] = 1;
@@ -360,7 +361,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Inky.Width = 14;
         SPR_Inky.HorizontalOffset = -3;
         SPR_Inky.VerticalOffset = -3;
-        SPR_Inky.FramespPerFrame = 8;
+        SPR_Inky.FramesPerFrame = 8;
         SPR_Inky.NumberOfFrames = 2;
         SPR_Inky.Frames[0] = 0;
         SPR_Inky.Frames[1] = 1;
@@ -370,7 +371,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Pinky.Width = 14;
         SPR_Pinky.HorizontalOffset = -3;
         SPR_Pinky.VerticalOffset = -3;
-        SPR_Pinky.FramespPerFrame = 8;
+        SPR_Pinky.FramesPerFrame = 8;
         SPR_Pinky.NumberOfFrames = 2;
         SPR_Pinky.Frames[0] = 0;
         SPR_Pinky.Frames[1] = 1;
@@ -380,7 +381,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Clyde.Width = 14;
         SPR_Clyde.HorizontalOffset = -3;
         SPR_Clyde.VerticalOffset = -3;
-        SPR_Clyde.FramespPerFrame = 8;
+        SPR_Clyde.FramesPerFrame = 8;
         SPR_Clyde.NumberOfFrames = 2;
         SPR_Clyde.Frames[0] = 0;
         SPR_Clyde.Frames[1] = 1;
@@ -390,7 +391,7 @@ void SpriteInit(int Restart) //defines sprite x y width height direction *frames
         SPR_Scared_Ghost.Width = 14;
         SPR_Scared_Ghost.HorizontalOffset = -3;
         SPR_Scared_Ghost.VerticalOffset = -3;
-        SPR_Scared_Ghost.FramespPerFrame = 8;
+        SPR_Scared_Ghost.FramesPerFrame = 8;
         SPR_Scared_Ghost.NumberOfFrames = 2;
         SPR_Scared_Ghost.Frames[0] = 0;
         SPR_Scared_Ghost.Frames[1] = 1;

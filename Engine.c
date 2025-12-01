@@ -37,7 +37,7 @@ void DrawSprite(Sprite* Sprite, Actor* Actor)
 
 void DrawText(int X, int Y, int Color, char* String)
 {
-    for(int i = 0; i < 8; i++)
+    for(byte i = 0; i < 8; i++)
     {
         SPR_Text.Frame = CharToFrame(String[i]);
         SPR_Text.X = X+i*8;
@@ -50,9 +50,9 @@ void DrawText(int X, int Y, int Color, char* String)
 void CoverDots()
 {
     DotsLeft = 0;
-    for(int i = 0; i < 36; i++)
+    for(byte i = 0; i < 36; i++)
     {
-        for(int j = 0; j < 28; j++)
+        for(byte j = 0; j < 28; j++)
         {
             if(!Dots[i][j] && MazeTiles[i][j] != 1)
             {
@@ -71,7 +71,7 @@ void CoverDots()
 
 void AnimateSprite(Sprite* Sprite)
 {
-    Sprite->Frame = Sprite->Frames[(Frame / Sprite->FramespPerFrame) % Sprite->NumberOfFrames];
+    Sprite->Frame = Sprite->Frames[(Frame / Sprite->FramesPerFrame) % Sprite->NumberOfFrames];
 }
 
 int AlignedToGrid(Actor* Actor)
@@ -177,6 +177,63 @@ void EatDot(Actor* Pac)
     }
 }
 
+void TurnPacMan(Actor* ACT_Pac, int Direction)
+{
+    if(Direction == Reversed[ACT_Pac->Direction])
+    {
+        ACT_Pac->Direction = Direction;
+        return;
+    }
+    byte OffsetX;
+    byte OffsetY;
+    int OldDirection = ACT_Pac->Direction;
+    int OldX = ACT_Pac->X;
+    int OldY = ACT_Pac->Y;
+    switch (Direction)
+    {
+        case Up:
+            OffsetY = -1;
+            break;
+        case Down:
+            OffsetY = 1;
+            break;
+        case Right:
+            OffsetX = 1;
+            break;
+        case Left:
+            OffsetX = -1;
+            break;
+    }
+    switch (ACT_Pac->Direction)
+    {
+        case Up:
+            OffsetY = -1;
+            ACT_Pac->Y = ((ACT_Pac->Y-8)/8)*8;
+            break;
+        case Down:
+            OffsetY = 1;
+            ACT_Pac->Y = ((ACT_Pac->Y+8)/8)*8;
+            break;
+        case Right:
+            OffsetX = 1;
+            ACT_Pac->X = ((ACT_Pac->X+8)/8)*8;
+            break;
+        case Left:
+            OffsetX = -1;
+            ACT_Pac->X = ((ACT_Pac->X-8)/8)*8;
+            break;
+    }
+    ACT_Pac->Direction = Direction;
+    // ACT_Pac->X += OffsetX;
+    // ACT_Pac->Y += OffsetY;
+    // if(!CanMoveInDirection(ACT_Pac))
+    // {
+    //     ACT_Pac->Direction = OldDirection;
+    //     ACT_Pac->X = OldX;
+    //     ACT_Pac->Y = OldY;
+    // }
+}
+
 void Render()
 {
     byte String[8] = {41,41,41,41,41,41,41,41};
@@ -194,9 +251,9 @@ void Render()
         {
             if(TitleType == Scores)
             {
-                for(int i = 1; i < 8; i += 2)
+                for(byte i = 1; i < 8; i += 2)
                 {
-                    for(int j = 0; j < 8; j++)
+                    for(byte j = 0; j < 8; j++)
                     {
                         Names[i][j] = ' ';
                     }
@@ -295,39 +352,19 @@ void Input()
     Key = SDL_GetKeyboardState(NULL);
     if (Key[SDL_SCANCODE_UP])
     {
-        int OldDirection = ACT_Pac.Direction;
-        ACT_Pac.Direction = Up;
-        if(!CanMoveInDirection(&ACT_Pac) || !AlignedToGrid(&ACT_Pac))
-        {
-            ACT_Pac.Direction = OldDirection;
-        }
+        TurnPacMan(&ACT_Pac,Up);
     }
-    else if (Key[SDL_SCANCODE_DOWN])
+    if (Key[SDL_SCANCODE_DOWN])
     {
-        int OldDirection = ACT_Pac.Direction;
-        ACT_Pac.Direction = Down;
-        if(!CanMoveInDirection(&ACT_Pac) || !AlignedToGrid(&ACT_Pac))
-        {
-            ACT_Pac.Direction = OldDirection;
-        }
+        TurnPacMan(&ACT_Pac,Down);
     }
-    else if (Key[SDL_SCANCODE_RIGHT])
+    if (Key[SDL_SCANCODE_RIGHT])
     {
-        int OldDirection = ACT_Pac.Direction;
-        ACT_Pac.Direction = Right;
-        if(!CanMoveInDirection(&ACT_Pac) || !AlignedToGrid(&ACT_Pac))
-        {
-            ACT_Pac.Direction = OldDirection;
-        }
+        TurnPacMan(&ACT_Pac,Right);
     }
-    else if (Key[SDL_SCANCODE_LEFT])
+    if (Key[SDL_SCANCODE_LEFT])
     {
-        int OldDirection = ACT_Pac.Direction;
-        ACT_Pac.Direction = Left;
-        if(!CanMoveInDirection(&ACT_Pac) || !AlignedToGrid(&ACT_Pac))
-        {
-            ACT_Pac.Direction = OldDirection;
-        }
+        TurnPacMan(&ACT_Pac,Left);
     }
     if (Key[SDL_SCANCODE_ESCAPE])
     {

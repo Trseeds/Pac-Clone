@@ -11,8 +11,11 @@ TODO:
     kill pacman
     level changes
     maze tunnels
+    use a reversed directions array instead of switch statements
 BUGS:
-    scared blinky always seems to get stuck to the right of his spawn
+    scared ghosts can get stuck
+    pacman turns like a maniac (finish TurnPacMan)
+    pacman can eat maze tiles when offscreen which somehow also affects ghost movement (not important in real gameplay, but interesting nonetheless)
 */
 
 int main(int argc, char *argv[])

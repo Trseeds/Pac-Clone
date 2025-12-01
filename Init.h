@@ -3,7 +3,8 @@
 #include <SDL.h>
 #include <stdio.h>
 
-typedef unsigned char byte;
+typedef unsigned char byte; //0-255 unsigned
+typedef char Byte; //-127-127 signed
 
 extern SDL_Event Event;
 extern SDL_Window* Window;
@@ -11,9 +12,9 @@ extern SDL_Renderer* Renderer;
 extern SDL_Rect Display;
 extern Uint8* Key;
 
-extern int Running;
-extern int Frame;
-extern int Scale;
+extern byte Running;
+extern byte Frame;
+extern byte Scale;
 extern int ScreenWidth;
 extern int ScreenHeight;
 extern const long double Framerate;
@@ -36,28 +37,26 @@ extern byte DotsLeft;
 struct Sprite {
     int X;
     int Y;
-    int Type;
+    byte Type;
     SDL_Texture* Sprite;
     int Width;
     int Height;
-    int HorizontalOffset;
-    int VerticalOffset;
-    int NumberOfFrames;
-    int Frame; //current frame
-    int Frames[16];
-    int FramespPerFrame; //animation speed
+    Byte HorizontalOffset;
+    Byte VerticalOffset;
+    byte NumberOfFrames;
+    byte Frame; //current frame
+    byte Frames[16];
+    byte FramesPerFrame; //animation speed
 };
 struct Actor {
-    int Type;
-    int GhostType;
+    byte Type;
+    byte GhostType;
     int X;
     int Y;
     int TargetX;
     int TargetY;
-    int Direction;
-    int AtIntersection;
-    int FramesPerPixel; //move speed
-    int Lives;
+    byte Direction;
+    byte FramesPerPixel; //move speed
 };
 typedef struct Sprite Sprite;
 typedef struct Actor Actor;
@@ -86,7 +85,7 @@ extern Actor ACT_Clyde;
 
 extern int RandomTable[512];
 extern int RandomIndex;
-extern int GhostMode;
+extern byte GhostMode;
 
 enum Regions {
     USA,
@@ -125,6 +124,7 @@ enum Direction { //order in which each direction appears on spritesheets vertica
     Up,
     Down
 };
+extern byte Reversed[4];
 enum Ghosts {
     Blinky,
     Inky,
