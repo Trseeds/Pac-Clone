@@ -12,6 +12,7 @@ TODO:
     level changes
     maze tunnels
     use a reversed directions array instead of switch statements
+    config.ini implementation
 BUGS:
     scared ghosts can get stuck
     pacman turns like a maniac (finish TurnPacMan)

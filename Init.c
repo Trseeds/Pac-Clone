@@ -32,7 +32,7 @@ char Names[8][8] = {"CHASER  ","BLINKY\" ",
 //                     "HUNTER__","_\"PINKY\"",
 //                     "FLANKER_","__\"INKY\"",
 //                     "MORON___","_\"CLYDE\""}; //custom (jap,programmers choice)
-unsigned int HiScores[4] = {10000,5000,1000,67};
+unsigned int HiScores[4] = {10000,5000,1000,'MORON!'};
 
 typedef struct Sprite Sprite;
 Sprite Black_Tile;
@@ -61,6 +61,7 @@ int RandomTable[512] = {419,199,377,34,38,7,109,122,18,487,340,198,305,379,372,4
 int RandomIndex = -1;
 byte GhostMode = Scatter;
 byte Reversed[4] = {Left,Right,Down,Up};
+byte DotsLeft = 1;
 
 /*0 free space
   1 wall
@@ -145,7 +146,6 @@ byte Dots[36][28] = {
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
-byte DotsLeft = 1;
 
 void MazeInit()
 {
@@ -158,6 +158,16 @@ void MazeInit()
             Dots[i][27-j] = Dots[i][j];
         }
     }
+}
+
+int ReadConfigFile()
+{
+    FILE* File = fopen("CONFIG.INI","r");
+    if(File == NULL)
+    {
+        return(-1);
+    }
+    //implement config stuffs
 }
 
 int SDLInit()
